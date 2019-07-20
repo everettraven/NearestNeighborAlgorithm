@@ -9,15 +9,16 @@ import random
 #route to complete errands in the most time efficient possible.
 #Currently Implemented:
 # 1. Nearest Neighbor Algorithm
+# 2. Ability to enter places a person is going
 #Need to implement:
 #1. Google Directions API to get travel times with traffic
-# 2. Ability to enter places a person is going
+
 
 
 def permute(array):
     return deque(permutations(array))
 
-def getBestRoute(points):
+def get_best_route(points):
     start_point = points[0]
 
     perms = permute(points[1:])
@@ -61,6 +62,7 @@ def getBestRoute(points):
     path_builder = []
     optimal_weight = {}
     path_weight = 0
+
 
     for i in perms:
         for j in range(len(i)):
@@ -121,12 +123,17 @@ def getBestRoute(points):
 #This is the test portion to make sure the main algorithm is working.
 #Glad to say that it works!
 
-locationString = "ABCDE"
+location_count = int(input("How many locations do you plan to visit? (including your current location) "))
 
 points = []
-for i in locationString:
-    points.append(i)
+for i in range(location_count):
+    if i == 0:
+        location = input("What is your starting location? ")
+    else:
+        location = input("What is location {}? ".format(i))
+    points.append(location)
 
 print(points)
 
-print(getBestRoute(points))
+print(get_best_route(points))
+
