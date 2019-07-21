@@ -7,6 +7,7 @@ It will use the Google Directions API to find the optimal path to take you the p
 # Currently Implemented:
     1. Nearest Neighbor Algorithm
     2. Ability to enter places a person is going
+    3. Google Directions API to get travel times with traffic
 
 # Need to implement:
-    1. Google Directions API to get travel times with traffic
+    Nothing!
