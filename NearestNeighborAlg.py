@@ -2,6 +2,7 @@ import requests
 from collections import deque
 from itertools import permutations
 import random
+import os
 
 #Bryce Palmer
 #--------------------------------------------------------------------------------------
@@ -13,7 +14,9 @@ import random
 #Need to implement:
 #1. Google Directions API to get travel times with traffic
 
-
+#This little snippet reads the google directions API from a .txt file so i dont have to place it here in the code
+file = open("./GoogleDirectionsAPIToken.txt", "r")
+api_key = file.read()
 
 def permute(array):
     return deque(permutations(array))
@@ -103,6 +106,13 @@ def get_best_route(points):
 
     return optimal_path
 
+#this function is a function that will be used to get the duration in traffic value from location1 to 
+#location2 from the Google Directions API
+def get_duration(loc1, loc2):
+    origin = loc1.replace(" ", "+")
+    destination = loc2.replace(" ", "+")
+
+    url = "https://maps.googleapis.com/maps/api/directions/json?origin={0}&destination={1}&departure_time=now&key={2}".format(origin, destination, api_key)
 
 
 #This is the test portion to make sure the main algorithm is working.
