@@ -3,6 +3,7 @@ from collections import deque
 from itertools import permutations
 import random
 import os
+import json
 
 #Bryce Palmer
 #--------------------------------------------------------------------------------------
@@ -38,7 +39,7 @@ def get_best_route(points):
 
     for i in perms:
         for j in range(len(i)):
-            random_value = random.randint(1,10)
+    
             if j == 0:
                 dict_key = start_point + "2" + i[j]
                 reversed_key = i[j] + "2" + start_point
@@ -46,10 +47,10 @@ def get_best_route(points):
                 reversed_key2 = i[j+1] + "2" + i[j]
 
                 if dict_key not in routes and reversed_key not in routes:
-                    routes[dict_key] = random_value
+                    routes[dict_key] = get_duration(start_point, i[j])
                 
                 if dict_key2 not in routes and reversed_key2 not in routes:
-                   routes[dict_key2] = random_value
+                   routes[dict_key2] = get_duration(i[j], i[j+1])
 
                 if dict_key not in routes and reversed_key in routes:
                     path_weight += routes[reversed_key]
@@ -66,7 +67,7 @@ def get_best_route(points):
                 reversed_key = start_point + "2" + i[j]
 
                 if dict_key not in routes and reversed_key not in routes:
-                    routes[dict_key] = random_value
+                    routes[dict_key] = get_duration(i[j], start_point)
                 
                 if dict_key not in routes and reversed_key in routes:
                     path_weight += routes[reversed_key]
@@ -79,7 +80,7 @@ def get_best_route(points):
                 reversed_key = i[j+1] + "2" + i[j]
 
                 if dict_key not in routes and reversed_key not in routes:
-                    routes[dict_key] = random_value
+                    routes[dict_key] = get_duration(i[j], i[j+1])
 
                 if dict_key not in routes and reversed_key in routes:
                     path_weight += routes[reversed_key]
@@ -114,7 +115,13 @@ def get_duration(loc1, loc2):
 
     url = "https://maps.googleapis.com/maps/api/directions/json?origin={0}&destination={1}&departure_time=now&key={2}".format(origin, destination, api_key)
 
+    resp = requests.post(url)
+    data = resp.json()
 
+    traffic_duration = data['routes'][0]['legs'][0]['duration_in_traffic']['value']
+    return(traffic_duration)
+
+    
 #This is the test portion to make sure the main algorithm is working.
 #Glad to say that it works!
 
@@ -131,4 +138,5 @@ for i in range(location_count):
 print(points)
 
 print(get_best_route(points))
+
 
