@@ -12,8 +12,10 @@ import json
 #Currently Implemented:
 # 1. Nearest Neighbor Algorithm
 # 2. Ability to enter places a person is going
+# 3. Google Directions API to get travel times with traffic
 #Need to implement:
-#1. Google Directions API to get travel times with traffic
+# Nothing!
+
 
 #This little snippet reads the google directions API from a .txt file so i dont have to place it here in the code
 file = open("./GoogleDirectionsAPIToken.txt", "r")
@@ -28,7 +30,9 @@ def get_best_route(points):
 
     perms = permute(points[1:])
 
-    print(len(perms))
+    #uncomment the print statement to show a calculation of how many permutations there are for a given array
+
+    #print(len(perms))
 
     routes = {}
 
@@ -99,11 +103,13 @@ def get_best_route(points):
         path_builder = []
         path_weight = 0
 
-    print(len(routes))
-    print(routes)
+    #uncomment the following print statements to show what some of the key calculations to track were.
+
+    #print(len(routes))
+    #print(routes)
     optimal_path.insert(0, start_point)
-    print(optimal_weight["lowest"])
-    print(optimal_path)
+    #print(optimal_weight["lowest"])
+    #print(optimal_path)
 
     return optimal_path
 
@@ -135,8 +141,18 @@ for i in range(location_count):
         location = input("What is location {}? ".format(i))
     points.append(location)
 
-print(points)
+route = get_best_route(points)
 
-print(get_best_route(points))
+output = ""
+
+for i in route:
+    output += i + " -> "
+
+output += points[0]
+
+print("The optimal route is : " + output)
+
+
+
 
 
